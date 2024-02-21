@@ -23,7 +23,6 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.IntakePosition;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -488,14 +487,7 @@ public class CENTERSTAGE_Bot {
 
         }
     }
-
-
-    public void resetIntake() {
-        intake.resetIntake();
-    }
-
     public void init(Arm.FingerPosition position) {
-        resetIntake();
         resetArm();
         if (position != null) {
             moveFinger(position);
@@ -712,10 +704,6 @@ public class CENTERSTAGE_Bot {
 
     public void setMode(DcMotor.RunMode runMode) {
         drive.setMode(runMode);
-    }
-
-    public void setLift(IntakePosition position) {
-        intake.setPosition(position);
     }
 
     public void togglePickup() {

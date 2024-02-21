@@ -4,13 +4,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.IntakePosition;
-
 public class Intake {
     public final DcMotor intake;
     private final Servo lift;
-    public IntakePosition intakePosition;
-
     public boolean intakeActive = false;
 
     private double intakeSpeed;
@@ -32,7 +28,6 @@ public class Intake {
 
             // No Intake lift on 16464 bot
             liftAvailable = false;
-            intakePosition = IntakePosition.PICKUP;
             intakePickupPosition = 0;
             intakeStowedPosition = 0;
         } else {
@@ -40,38 +35,10 @@ public class Intake {
             ejectSpeed = 0.25;
 
             liftAvailable = true;
-            intakePosition = IntakePosition.STOWED;
             intakePickupPosition = 0.8;
             intakeStowedPosition = 1;
         }
 
-    }
-
-
-    public void setPosition(IntakePosition position) {
-        if (!liftAvailable) {
-            return;
-        }
-
-        switch (position) {
-            case PICKUP:
-                lift.setPosition(intakePickupPosition);
-                break;
-            case STOWED:
-                lift.setPosition(intakeStowedPosition);
-
-                // If the intake is stowed, it should stop spinning as well
-                if (intakeActive) {
-                    stopIntake();
-                }
-
-                break;
-        }
-        intakePosition = position;
-    }
-
-    public IntakePosition getPosition() {
-        return intakePosition;
     }
 
     public void stopIntake() {
@@ -83,11 +50,6 @@ public class Intake {
         if (intakeActive) {
             stopIntake();
         } else {
-            // If the intake was turned on, make sure it's on the ground
-            if (intakePosition != IntakePosition.PICKUP) {
-                setPosition(IntakePosition.PICKUP);
-            }
-
             intake.setDirection(DcMotorSimple.Direction.REVERSE);
             intake.setPower(intakeSpeed);
             intakeActive = true;
@@ -98,11 +60,6 @@ public class Intake {
         if (intakeActive) {
             stopIntake();
         } else {
-            //Intake shouldn't be on ground for ejecting
-            if (intakePosition != IntakePosition.STOWED) {
-                setPosition(IntakePosition.STOWED);
-            }
-
             intake.setDirection(DcMotorSimple.Direction.FORWARD);
             intake.setPower(ejectSpeed);
             intakeActive = true;
@@ -113,20 +70,11 @@ public class Intake {
         if (!liftAvailable) {
             return;
         }
-
-        if (intakePosition == IntakePosition.STOWED) {
-            setPosition(IntakePosition.PICKUP);
-        } else {
-            setPosition(IntakePosition.STOWED);
-        }
     }
     public void setIntakeSpeed(double speed){
         intakeSpeed = speed;
     }
     public void setEjectSpeed(double speed){
         ejectSpeed = speed;
-    }
-    public void resetIntake(){
-        setPosition(IntakePosition.STOWED);
     }
 }
