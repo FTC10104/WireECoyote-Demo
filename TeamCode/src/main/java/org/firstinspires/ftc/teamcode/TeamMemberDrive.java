@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.drive.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.drive.subsystems.CENTERSTAGE_Bot;
 
 @TeleOp
-public class ArcadeDrive extends OpMode {
+public class TeamMemberDrive extends OpMode {
     private final ButtonTracker fingerButton = new ButtonTracker();
     private final ButtonTracker fingerCarryButton = new ButtonTracker();
     private final ButtonTracker resetArmButton = new ButtonTracker();
@@ -21,7 +21,7 @@ public class ArcadeDrive extends OpMode {
     private final ButtonTracker retractButton = new ButtonTracker();
     private final ButtonTracker climbUp = new ButtonTracker();
     private final ButtonTracker climbDown = new ButtonTracker();
-    double slowdown = 0.4;
+    double slowdown = 1;
     double driveFlip = 1;
     boolean armOverCurrent = false;
     private CENTERSTAGE_Bot bot;
@@ -32,6 +32,7 @@ public class ArcadeDrive extends OpMode {
         bot.init(Arm.FingerPosition.LOAD);
         bot.resetArm();
         bot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        telemetry.speak("Only team members should be running this code");
     }
 
     @Override
